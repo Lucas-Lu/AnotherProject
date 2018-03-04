@@ -1,6 +1,7 @@
-//const path = require('path');
+const path = require('path');
 var webpack = require('webpack');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var Ex = require('extract-text-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 var config = {
@@ -10,23 +11,35 @@ var config = {
         "login":['./src/page/login/index.js']
     },
     output: {
-      path: '/dist',//path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'dist'),
       filename: 'js/[name].js'
     },
-    module:{
-      loaders:[
-        { test: /\.css$/, loaders: ExtractTextPlugin.extract("style-loader","css-loader")}
-      ]
+    module: {
+      loaders: [{
+        test: /\.css/,
+        loader:
+        Ex.extract({fallback: "style-loader",use: "css-loader"})
+        //loader: Ex.extract('style-loader', 'css-loader')  // 单独打包出CSS，这里配置注意下
+        //loader: "style-loader!css-loader"  // 单独打包出CSS，这里配置注意下
+      }]
     },
     externals:{
       'jquery' : 'window.jQuery'
     },
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
-        name: 'commons',
+        name: 'common',
         filename : 'js/base.js'
       }),
-      new ExtractTextPlugin("css/[name].css"), 
+      new Ex("css/[name].css"),
+      new HtmlWebpackPlugin({
+          template : './src/view/index.html',
+          filename : 'view/index.html',
+          inject : true,
+          hash : true,
+          trunks : ['common','index']
+
+      })
     ]
   };
 

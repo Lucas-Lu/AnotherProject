@@ -1,3 +1,3 @@
 'use strict';
 
-console('I am global');
+console.log('I am global');
