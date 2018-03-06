@@ -17,9 +17,12 @@
     "style-loader": "^0.19.1",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
+    "webpack-cli": "^2.0.10",
     "webpack-dev-server": "^3.1.0"
   },
   "scripts": {
+    "dev": "WBEPACK_ENV=dev webpack-dev-server --inline --port 8098",
+    "dist": "WBEPACK_ENV=online webpack-dev-server -p",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack"
   },

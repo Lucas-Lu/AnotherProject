@@ -2,6 +2,8 @@ const path = require('path');
 var webpack = require('webpack');
 var Ex = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+//环境变量，dev/online 
+var WEBPACK_ENV = process.env.WEBPACK_ENV || "dev";
 var getHtmlConfig = function(name){
   return {
     template : './src/view/' + name + '.html',
@@ -11,16 +13,16 @@ var getHtmlConfig = function(name){
     chunks : ['common',name]
   };
 };
-
+ 
 var config = {
     entry: {
-        "common":['./src/page/common/index.js','webpack-dev-server/client?http://localhost:8088'],
+        "common":['./src/page/common/index.js'],
         "index":['./src/page/index/index.js'],
         "login":['./src/page/login/index.js']
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
-      publishPath: '/dist',
+      publicPath: '/dist',
       filename: 'js/[name].js'
     },
     module: {
@@ -44,5 +46,9 @@ var config = {
       new HtmlWebpackPlugin(getHtmlConfig('login')),
     ]
   };
+
+  if("dev" == WEBPACK_ENV){
+    config.entry.common.push('webpack-dev-server/client?http://localhost:8098/');
+  }
 
   module.exports = config;
