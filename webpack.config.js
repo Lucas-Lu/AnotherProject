@@ -33,6 +33,14 @@ var config = {
       { test: /\.(gif|png|jpg|woff|svg|eto|ttf)\??.*$/, loader: 'url-loader?limit=100&name=resourcer/[name].[ext]'}
       ] 
     },
+    resolve:{
+      alias:{
+        util : __dirname + '/src/util',
+        page : __dirname + '/src/page',
+        image : __dirname + '/src/image',
+        service : __dirname + '/src/service',
+      }
+    },
     externals:{
       'jquery' : 'window.jQuery'
     },
