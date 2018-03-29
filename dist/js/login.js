@@ -1,22 +1,33 @@
 webpackJsonp([1],{
 
-/***/ 6:
+/***/ 31:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(7);
+module.exports = __webpack_require__(32);
 
 
 /***/ }),
 
-/***/ 7:
+/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 console.log('hello login');
-__webpack_require__(0);
+__webpack_require__(33);
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+module.exports = {
+    test:1234
+}
 
 /***/ })
 
-},[6]);
+},[31]);
