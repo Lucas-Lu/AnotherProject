@@ -46,14 +46,13 @@ var config = {
       'jquery' : 'window.jQuery'
     },
     plugins: [
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'common',
-        filename : 'js/base.js'
-      }),
+      // new webpack.optimize.CommonsChunkPlugin({
+      //   name: 'common',
+      //   filename : 'js/base.js'
+      // }),
       new Ex("css/[name].css"),
       new HtmlWebpackPlugin(getHtmlConfig('index')),
       new HtmlWebpackPlugin(getHtmlConfig('login')),
-      new HtmlWebpackPlugin(getHtmlConfig('weui')),
     ]
   };
 
