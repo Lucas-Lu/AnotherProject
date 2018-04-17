@@ -60,62 +60,29 @@
 /******/ 	__webpack_require__.p = "/dist";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 26);
+/******/ 	return __webpack_require__(__webpack_require__.s = 31);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 26:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(27);
-
-
-/***/ }),
-
-/***/ 27:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-__webpack_require__(28) 
-__webpack_require__(29)
-var _core = __webpack_require__(30)
- 
-
-_core.require({
-    url:'./test.do',
-    success:function(res){
-        console.log(res)
-    }
-})
-
-/***/ }),
-
-/***/ 28:
+/***/ 0:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 29:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 30:
+/***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var Hogan = __webpack_require__(31);
+var Hogan = __webpack_require__(2);
 var conf = {
-    serverHost : ''
+    serverHost : 'http://www.greenpig.site/AnotherProject/view'
 }
 var _core = {
+    serverUrl : "http://www.greenpig.site/crabPool",
     request : function(param){
         var _this = this; 
         $.ajax({
@@ -123,14 +90,15 @@ var _core = {
             url : param.url || '',
             dataType : param.dataType || 'json',
             data : param.data,
+            async: param.async || true,
             success : function(res){
-                if(0 === res.Status){
+                if(0 === res.status){
                     typeof param.success === 'function' && param.success(res.data, res.msg)
                 }
-                else if(10 === res.Status){
+                else if(10 === res.status){
                     _this.doLogin();
                 }
-                else if(1 === res.Status){
+                else if(1 === res.status){
                     typeof param.error === 'function' && param.error(res.msg)
                 }
             },
@@ -181,10 +149,45 @@ var _core = {
     } ,
     //统一登陆提示
     doLogin : function(){
-        window.location.href = './login.html?redirect=' + window.location.href;
+        var userName = this.getCookie("Crab_User");
+        if(userName == ""){
+            window.location.href = this.getServerUrl('/login.html?redirect=' + window.location.href);
+        }
+        
     },
     goHome : function(){
-        window.location.href = './index.html';
+        window.location.href = this.getServerUrl('/index.html');
+    },
+    getCookie: function(c_name){
+        if (document.cookie.length>0)
+        {
+            var c_start=document.cookie.indexOf(c_name + "=");
+            if (c_start!=-1)
+            { 
+                c_start=c_start + c_name.length+1;
+                var c_end=document.cookie.indexOf(";",c_start);
+                if (c_end==-1) c_end=document.cookie.length;
+                return unescape(document.cookie.substring(c_start,c_end));
+            } 
+        }
+        return "";
+    },
+    setCookie: function(c_name,value,expiredays){
+        var exdate=new Date()
+        exdate.setDate(exdate.getDate()+expiredays)
+        document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+    },
+    getQueryString: function(queryStr){
+        var location = String(window.document.location.href);
+        var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp; 
+        if (tmp = rs) { 
+            return tmp[2]; 
+        } 
+        // parameter cannot be found 
+        return ""; 
+    },
+    bindData:function($elems,data){
+        
     }
 }
 
@@ -192,7 +195,7 @@ module.exports = _core;
 
 /***/ }),
 
-/***/ 31:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -212,15 +215,15 @@ module.exports = _core;
 
 // This file is for use with Node.js. See dist/ for browser files.
 
-var Hogan = __webpack_require__(32);
-Hogan.Template = __webpack_require__(33).Template;
+var Hogan = __webpack_require__(3);
+Hogan.Template = __webpack_require__(4).Template;
 Hogan.template = Hogan.Template;
 module.exports = Hogan;
 
 
 /***/ }),
 
-/***/ 32:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -650,7 +653,65 @@ module.exports = Hogan;
 
 /***/ }),
 
-/***/ 33:
+/***/ 31:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(32);
+
+
+/***/ }),
+
+/***/ 32:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(0)
+var _core = __webpack_require__(1)
+_core.doLogin(); 
+
+var getCategoryParams = {
+    url : _core.serverUrl + "/furniture/getAllCategory.do",
+    method: "post",
+    success : function(data, msg){
+        //获取列表数据
+        var html = "";
+        var getByCategoryParams = {
+            url : _core.serverUrl + "/furniture/getByCategory.do",
+            method: "post",
+            async : false,
+            success : function(furnitures, msg){
+                for(var j = 0; j < furnitures.length ; j ++){
+                    html += (+ " <a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitures[j].ID + "'><div class='weui-cell__bd'><p>" + furnitures[j].Name + "</p></div><div class='weui-cell__ft'></div></a>");
+                }
+            } 
+        }
+        for(var i = 0; i < data.length ; i ++){
+            html += ("<div class='weui-cells__title'>" + data[i].Name + "</div><div class='weui-cells'>");
+            getByCategoryParams.data = {'categoryID': data[i].ID };
+            _core.require(getByCategoryParams);
+            html += "</div></div>";
+        }
+        $(".page__bd").html(html);
+
+        $(".page__bd").append("<a href='javascript:;' class='weui-btn weui-btn_primary furniture_item' data-id='0'>添加</a>");
+        $(".furniture_item").click(function(){
+            var id = $(this).attr('data-id');
+            window.location.href = _core.getServerUrl("/view/furniture.html?id=" + id);
+        });
+
+    },
+    error : function(msg){
+        alert(msg);
+    }
+}
+_core.require(getCategoryParams);
+
+
+/***/ }),
+
+/***/ 4:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%= require('html-loader!./layout/head-common.html') %>
+</head>
+<body>
+    
+    <div class="page list js_show">
+        <div class="page__hd">
+            <h1 class="page__title">家具明细</h1>
+            <p class="page__desc"></p>
+        </div>
+        <div class="page__bd">
+            <div class="weui-cells__title">属性</div>
+            <div class="weui-cells">
+                 <div class="weui-cell">
+                     <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
+                     <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" placeholder="请输入名称" data-bind="Name">
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_select weui-cell_select-after">
+                    <div class="weui-cell__hd"><label class="weui-label">分类</label></div>
+                    <div class="weui-cell__bd">
+                       <select class="weui-select" name="select2" data-bind='CategoryID'>
+    
+                        </select>
+                   </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">实用性</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" placeholder="请输入实用性" id="Practicability">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">美观性</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" placeholder="请输入美观性" id="Aesthetic">
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">参考链接</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" placeholder="请输入名称" id="Buylink">
+                    </div>
+                </div>      
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">备注</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" placeholder="请输入名称" id="Remark">
+                    </div>
+                </div>    
+                <a class='weui-cell weui-cell_access furniture_history' href='javascript:;'><div class='weui-cell__bd'><p>查看历史</p></div><div class='weui-cell__ft'></div></a>            
+            </div>
+        </div>
+        <div class="page__ft">
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="../js/furniture.js"></script>
+    <%= require('html-loader!./layout/footer.html') %>
+</body>
+</html> 

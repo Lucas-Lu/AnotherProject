@@ -1,16 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
-    <title>共享编辑</title>
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
-
+    <%= require('html-loader!./layout/head-common.html') %>
 </head>
 <body>
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="../../dist/js/index.js"></script>
-    <script type="text/javascript" src="../../dist/js/weui.js"></script>
+        <div class="page list" style="margin:10px">
+                <div class="page__hd">
+                    <h1 class="page__title">家具池</h1>
+                    <p class="page__desc"></p>
+                </div>
+                <div class="page__bd">
+                    <div class="weui-cells__title">登录信息</div>
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">用户名</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" placeholder="请输入用户名" id="userName">
+                            </div>
+                         </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label">密码</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="password" placeholder="请输入密码" id="password">
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <a href="javascript:;" class="weui-btn weui-btn_primary" id="btn_login">登录</a>
+                </div>
+                <div class="page__ft">
+                </div>
+        </div>
+    <%= require('html-loader!./layout/footer.html') %>
 </body>
 </html>

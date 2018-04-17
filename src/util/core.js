@@ -1,9 +1,10 @@
 'use strict';
 var Hogan = require('hogan.js');
 var conf = {
-    serverHost : ''
+    serverHost : 'http://www.greenpig.site/AnotherProject/view'
 }
 var _core = {
+    serverUrl : "http://www.greenpig.site/crabPool",
     request : function(param){
         var _this = this; 
         $.ajax({
@@ -11,14 +12,15 @@ var _core = {
             url : param.url || '',
             dataType : param.dataType || 'json',
             data : param.data,
+            async: param.async || true,
             success : function(res){
-                if(0 === res.Status){
+                if(0 === res.status){
                     typeof param.success === 'function' && param.success(res.data, res.msg)
                 }
-                else if(10 === res.Status){
+                else if(10 === res.status){
                     _this.doLogin();
                 }
-                else if(1 === res.Status){
+                else if(1 === res.status){
                     typeof param.error === 'function' && param.error(res.msg)
                 }
             },
@@ -69,10 +71,45 @@ var _core = {
     } ,
     //统一登陆提示
     doLogin : function(){
-        window.location.href = './login.html?redirect=' + window.location.href;
+        var userName = this.getCookie("Crab_User");
+        if(userName == ""){
+            window.location.href = this.getServerUrl('/login.html?redirect=' + window.location.href);
+        }
+        
     },
     goHome : function(){
-        window.location.href = './index.html';
+        window.location.href = this.getServerUrl('/index.html');
+    },
+    getCookie: function(c_name){
+        if (document.cookie.length>0)
+        {
+            var c_start=document.cookie.indexOf(c_name + "=");
+            if (c_start!=-1)
+            { 
+                c_start=c_start + c_name.length+1;
+                var c_end=document.cookie.indexOf(";",c_start);
+                if (c_end==-1) c_end=document.cookie.length;
+                return unescape(document.cookie.substring(c_start,c_end));
+            } 
+        }
+        return "";
+    },
+    setCookie: function(c_name,value,expiredays){
+        var exdate=new Date()
+        exdate.setDate(exdate.getDate()+expiredays)
+        document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+    },
+    getQueryString: function(queryStr){
+        var location = String(window.document.location.href);
+        var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp; 
+        if (tmp = rs) { 
+            return tmp[2]; 
+        } 
+        // parameter cannot be found 
+        return ""; 
+    },
+    bindData:function($elems,data){
+        
     }
 }
 
