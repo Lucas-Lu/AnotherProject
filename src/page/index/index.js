@@ -7,23 +7,24 @@ _core.doLogin();
 var getCategoryParams = {
     url : _core.serverUrl + "/furniture/getAllCategory.do",
     method: "post",
+    notAsync : true,
     success : function(data, msg){
         //获取列表数据
         var html = "";
         var getByCategoryParams = {
             url : _core.serverUrl + "/furniture/getByCategory.do",
             method: "post",
-            async : false,
+            notAsync : true,
             success : function(furnitures, msg){
                 for(var j = 0; j < furnitures.length ; j ++){
-                    html += (+ " <a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitures[j].ID + "'><div class='weui-cell__bd'><p>" + furnitures[j].Name + "</p></div><div class='weui-cell__ft'></div></a>");
+                    html += (+ " <a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitures[j].id + "'><div class='weui-cell__bd'><p>" + furnitures[j].name + "</p></div><div class='weui-cell__ft'></div></a>");
                 }
             } 
         }
         for(var i = 0; i < data.length ; i ++){
-            html += ("<div class='weui-cells__title'>" + data[i].Name + "</div><div class='weui-cells'>");
-            getByCategoryParams.data = {'categoryID': data[i].ID };
-            _core.require(getByCategoryParams);
+            html += ("<div class='weui-cells__title'>" + data[i].name + "</div><div class='weui-cells'>");
+            getByCategoryParams.data = {'categoryID': data[i].id };
+            _core.request(getByCategoryParams);
             html += "</div></div>";
         }
         $(".page__bd").html(html);
@@ -39,4 +40,4 @@ var getCategoryParams = {
         alert(msg);
     }
 }
-_core.require(getCategoryParams);
+_core.request(getCategoryParams);

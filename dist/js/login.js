@@ -65,12 +65,12 @@
 /************************************************************************/
 /******/ ({
 
-/***/ 1:
+/***/ 0:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var Hogan = __webpack_require__(2);
+var Hogan = __webpack_require__(1);
 var conf = {
     serverHost : 'http://www.greenpig.site/AnotherProject/view'
 }
@@ -83,7 +83,7 @@ var _core = {
             url : param.url || '',
             dataType : param.dataType || 'json',
             data : param.data,
-            async: param.async || true,
+            async: !param.notAsync,
             success : function(res){
                 if(0 === res.status){
                     typeof param.success === 'function' && param.success(res.data, res.msg)
@@ -172,7 +172,7 @@ var _core = {
     },
     getQueryString: function(queryStr){
         var location = String(window.document.location.href);
-        var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp; 
+        var rs = new RegExp("(^|)" + queryStr + "=([^&]*)(&|$)", "gi").exec(location), tmp; 
         if (tmp = rs) { 
             return tmp[2]; 
         } 
@@ -188,7 +188,7 @@ module.exports = _core;
 
 /***/ }),
 
-/***/ 2:
+/***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -208,15 +208,15 @@ module.exports = _core;
 
 // This file is for use with Node.js. See dist/ for browser files.
 
-var Hogan = __webpack_require__(3);
-Hogan.Template = __webpack_require__(4).Template;
+var Hogan = __webpack_require__(2);
+Hogan.Template = __webpack_require__(3).Template;
 Hogan.template = Hogan.Template;
 module.exports = Hogan;
 
 
 /***/ }),
 
-/***/ 3:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -646,48 +646,7 @@ module.exports = Hogan;
 
 /***/ }),
 
-/***/ 33:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(34);
-
-
-/***/ }),
-
-/***/ 34:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-console.log('hello login');
-var _core = __webpack_require__(1)
-var serverUrl = "http://www.greenpig.site/crabPool"
-$("#btn_login").click(function(){
-    var userName = $("#userName").val();
-    var password = $("#password").val();
-    if(userName.length == 0 || password == 0){
-        alert("输入账号和密码");
-        return;
-    }
-    var loginParams = {
-        method :"post",
-        url : serverUrl + "/user/login.do",
-        data: {"userName": userName,"password": password },
-        success : function(data, msg){
-            //存入登录状态
-            _core.setCookie('Crab_User', data.id + '@' + data.username , 7);
-            _core.goHome();
-        },
-        error : function(msg){
-            alert(msg);
-        }
-    }
-    _core.request(loginParams);
-});
-
-/***/ }),
-
-/***/ 4:
+/***/ 3:
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -1032,6 +991,47 @@ var Hogan = {};
 
 })( true ? exports : Hogan);
 
+
+/***/ }),
+
+/***/ 33:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(34);
+
+
+/***/ }),
+
+/***/ 34:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+console.log('hello login');
+var _core = __webpack_require__(0)
+var serverUrl = "http://www.greenpig.site/crabPool"
+$("#btn_login").click(function(){
+    var userName = $("#userName").val();
+    var password = $("#password").val();
+    if(userName.length == 0 || password == 0){
+        alert("输入账号和密码");
+        return;
+    }
+    var loginParams = {
+        method :"post",
+        url : serverUrl + "/user/login.do",
+        data: {"userName": userName,"password": password },
+        success : function(data, msg){
+            //存入登录状态
+            _core.setCookie('Crab_User', data.id + '@' + data.username , 7);
+            _core.goHome();
+        },
+        error : function(msg){
+            alert(msg);
+        }
+    }
+    _core.request(loginParams);
+});
 
 /***/ })
 

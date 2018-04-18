@@ -19,7 +19,8 @@ var config = {
         "common":['./src/page/common/index.js'],
         "index":['./src/page/index/index.js'],
         "login":['./src/page/login/index.js'],
-        "weui":['./src/page/weui/example.js']
+        "weui":['./src/page/weui/example.js'],
+        "furniture":['./src/page/furniture/index.js']
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -53,6 +54,7 @@ var config = {
       new Ex("css/[name].css"),
       new HtmlWebpackPlugin(getHtmlConfig('index')),
       new HtmlWebpackPlugin(getHtmlConfig('login')),
+      new HtmlWebpackPlugin(getHtmlConfig('furniture')),
     ]
   };
 

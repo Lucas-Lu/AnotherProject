@@ -12,7 +12,7 @@ var _core = {
             url : param.url || '',
             dataType : param.dataType || 'json',
             data : param.data,
-            async: param.async || true,
+            async: !param.notAsync,
             success : function(res){
                 if(0 === res.status){
                     typeof param.success === 'function' && param.success(res.data, res.msg)
@@ -101,7 +101,7 @@ var _core = {
     },
     getQueryString: function(queryStr){
         var location = String(window.document.location.href);
-        var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp; 
+        var rs = new RegExp("(^|)" + queryStr + "=([^&]*)(&|$)", "gi").exec(location), tmp; 
         if (tmp = rs) { 
             return tmp[2]; 
         } 
