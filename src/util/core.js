@@ -109,7 +109,12 @@ var _core = {
         return ""; 
     },
     bindData:function($elems,data){
-        
+        for(var _key in data){
+            var $databind = $elems.find("[data-bind='" + _key + "']");
+            if($databind.length > 0){
+                $elems.find("[data-bind='" + _key + "']").val(data[_key]);
+            }
+        }
     }
 }
 

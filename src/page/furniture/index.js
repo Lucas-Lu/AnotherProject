@@ -12,8 +12,7 @@ else{
         url : _core.serverUrl + "/furniture/getByID.do?id=" + furnitureID,
         success : function(data, msg){
             //获取列表数据
-            
-           
+            _core.bindData($("#furniture_info"),data);
         },
         error : function(msg){
             alert(msg);
