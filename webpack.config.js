@@ -20,7 +20,9 @@ var config = {
         "index":['./src/page/index/index.js'],
         "login":['./src/page/login/index.js'],
         "weui":['./src/page/weui/example.js'],
-        "furniture":['./src/page/furniture/index.js']
+        "furniture":['./src/page/furniture/index.js'],
+        "furnitureHistorys":['./src/page/furniture/HistoryList.js'],
+        "furnitureHistory":['./src/page/furniture/History.js']
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -55,6 +57,8 @@ var config = {
       new HtmlWebpackPlugin(getHtmlConfig('index')),
       new HtmlWebpackPlugin(getHtmlConfig('login')),
       new HtmlWebpackPlugin(getHtmlConfig('furniture')),
+      new HtmlWebpackPlugin(getHtmlConfig('furnitureHistorys')),
+      new HtmlWebpackPlugin(getHtmlConfig('furnitureHistory')),
     ]
   };
 

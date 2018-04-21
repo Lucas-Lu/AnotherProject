@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%= require('html-loader!./layout/head-common.html') %>
+</head>
+<body>
+    
+    <div class="page list js_show" style="margin:10px">
+        <div class="page__hd">
+            <h1 class="page__title">家具历史明细</h1>
+            <p class="page__desc"></p>
+        </div>
+        <div class="page__bd" id="furniture_info">
+            <div class="weui-cells__title">属性</div>
+            <div class="weui-cells">
+                 <div class="weui-cell">
+                     <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
+                     <div class="weui-cell__bd">
+                        <p data-bind="Name"></p>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_select weui-cell_select-after">
+                    <div class="weui-cell__hd"><label class="weui-label">分类</label></div>
+                    <div class="weui-cell__bd">
+                        <p data-bind="CategoryName"></p>
+                   </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">实用性</label></div>
+                    <div class="weui-cell__bd">
+                        <p data-bind="Practicability"></p>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">美观性</label></div>
+                    <div class="weui-cell__bd">
+                        <p data-bind="Aesthetic"></p>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">参考链接</label></div>
+                    <div class="weui-cell__bd">
+                        <p data-bind="Buylink"></p>
+                    </div>
+                </div>      
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">备注</label></div>
+                    <div class="weui-cell__bd">
+                        <p data-bind="Remark"></p>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <div class="page__ft">
+
+        </div>
+    </div>
+    
+    <%= require('html-loader!./layout/footer.html') %>
+    <script type="text/javascript" src="../js/furnitureHistory.js"></script>
+</body>
+</html> 

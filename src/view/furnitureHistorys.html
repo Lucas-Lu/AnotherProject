@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%= require('html-loader!./layout/head-common.html') %>
+</head>
+<body>
+    <div class="page list js_show" style="margin:10px">
+        <div class="page__hd">
+            <h1 class="page__title">历史记录</h1>
+            <p class="page__desc"></p>
+        </div>
+        <div class="page__bd">
+            <div class='weui-cells' id='historys'>
+
+            </div>
+        </div>
+        <div class="page__ft">
+        
+        </div>
+    </div>
+
+    <%= require('html-loader!./layout/footer.html') %>
+    <script type="text/javascript" src="../js/furnitureHistorys.js"></script>
+</body>
+</html> 

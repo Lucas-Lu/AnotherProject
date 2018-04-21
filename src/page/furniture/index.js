@@ -3,9 +3,9 @@
 var _core = require('util/core.js')
 _core.doLogin(); 
 
-var furnitureID = _core.getQueryString("id");
+var furnitureID = _core.getUrlParam("id");
 if(furnitureID == "" || furnitureID == "0"){
-    
+    $(".furniture_history").hide();
 }
 else{
     var getFurnitureParams = {
@@ -18,5 +18,14 @@ else{
             alert(msg);
         }
     }
-    _core.require(getFurnitureParams);
+    _core.rquest(getFurnitureParams);
 }
+
+$(".furniture_history").click(function(){
+    if(furnitureID == "" || furnitureID == "0"){
+        alert("没有历史");
+    }
+    else{
+        window.location = _core.getServerUrl('/view/furnitureHistorys.html?id=' + furnitureID);
+    }
+});

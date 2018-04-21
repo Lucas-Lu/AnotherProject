@@ -99,15 +99,6 @@ var _core = {
         exdate.setDate(exdate.getDate()+expiredays)
         document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
     },
-    getQueryString: function(queryStr){
-        var location = String(window.document.location.href);
-        var rs = new RegExp("(^|)" + queryStr + "=([^&]*)(&|$)", "gi").exec(location), tmp; 
-        if (tmp = rs) { 
-            return tmp[2]; 
-        } 
-        // parameter cannot be found 
-        return ""; 
-    },
     bindData:function($elems,data){
         for(var _key in data){
             var $databind = $elems.find("[data-bind='" + _key + "']");
