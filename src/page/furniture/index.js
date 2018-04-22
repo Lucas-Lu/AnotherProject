@@ -21,6 +21,25 @@ else{
     _core.rquest(getFurnitureParams);
 }
 
+$("#btn_save_furnitue").click(function(){
+    var furniture = _core.GetData($("#furniture_info"));
+    if(furniture.name == "" || furniture.categoryID == ""){
+        alert("请先填写必填项");
+        return;
+    }
+    var furnitureParams = {
+        url : _core.serverUrl + "/furniture/save.do",
+        data: _core.parseJsonString(furniture),
+        success : function(data, msg){
+            //获取列表数据
+            _core.bindData($("#furniture_info"),data);
+        },
+        error : function(msg){
+            alert(msg);
+        }
+    }
+})
+
 $(".furniture_history").click(function(){
     if(furnitureID == "" || furnitureID == "0"){
         alert("没有历史");

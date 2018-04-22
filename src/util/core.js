@@ -106,6 +106,16 @@ var _core = {
                 $elems.find("[data-bind='" + _key + "']").val(data[_key]);
             }
         }
+    },
+    getData:function($elems){
+        var thisObj = new Object();
+        $elems.find("[data-bind='*']").each(function(){
+            thisObj[$(this).attr('data-bind')] == $(this).val(); 
+        });
+        return thisObj;
+    },
+    parseJsonString:function(JsonObject){
+        return JSON.stringify(JsonObject);
     }
 }
 
