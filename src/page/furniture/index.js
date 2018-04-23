@@ -2,6 +2,7 @@
 
 var _core = require('util/core.js')
 _core.doLogin(); 
+var categoryItems = ["唯一且垄断","唯一且必须","可选"];
 
 var furnitureID = _core.getUrlParam("id");
 if(furnitureID == "" || furnitureID == "0"){
@@ -12,6 +13,7 @@ else{
         url : _core.serverUrl + "/furniture/getByID.do?id=" + furnitureID,
         success : function(data, msg){
             //获取列表数据
+            data.categoryName = categoryItems[data.categoryID];
             _core.bindData($("#furniture_info"),data);
         },
         error : function(msg){
