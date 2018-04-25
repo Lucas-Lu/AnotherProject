@@ -19,7 +19,7 @@ else{
             });
             $(".furniture_item").click(function(){
                 var id = $(this).attr('data-id');
-                window.location.href = _core.getServerUrl("/view/furnitureVersions.html?id=" + id);
+                window.location.href = _core.getServerUrl("/furnitureVersions.html?id=" + id);
             });
         },
         error : function(msg){
@@ -34,6 +34,6 @@ $(".furniture_history").click(function(){
         alert("没有历史");
     }
     else{
-        window.location = _core.getServerUrl('/view/furnitureHistory.html?historyid=' + furnitureID);
+        window.location = _core.getServerUrl('/furnitureHistory.html?historyid=' + furnitureID);
     }
 });

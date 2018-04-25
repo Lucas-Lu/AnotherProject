@@ -10,7 +10,8 @@ if(furnitureID == "" || furnitureID == "0"){
 }
 else{
     var getFurnitureParams = {
-        url : _core.serverUrl + "/furniture/getByID.do?id=" + furnitureID,
+        url : _core.serverUrl + "/furniture/getByID.do",
+        data : {"id" : furnitureID },
         success : function(data, msg){
             //获取列表数据
             data.categoryName = categoryItems[data.categoryID];
@@ -20,7 +21,7 @@ else{
             alert(msg);
         }
     }
-    _core.rquest(getFurnitureParams);
+    _core.request(getFurnitureParams);
 }
 
 $("#btn_save_furnitue").click(function(){
@@ -47,6 +48,6 @@ $(".furniture_history").click(function(){
         alert("没有历史");
     }
     else{
-        window.location = _core.getServerUrl('/view/furnitureHistorys.html?id=' + furnitureID);
+        window.location = _core.getServerUrl('/furnitureHistorys.html?id=' + furnitureID);
     }
 });

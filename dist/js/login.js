@@ -170,17 +170,23 @@ var _core = {
         exdate.setDate(exdate.getDate()+expiredays)
         document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
     },
-    getQueryString: function(queryStr){
-        var location = String(window.document.location.href);
-        var rs = new RegExp("(^|)" + queryStr + "=([^&]*)(&|$)", "gi").exec(location), tmp; 
-        if (tmp = rs) { 
-            return tmp[2]; 
-        } 
-        // parameter cannot be found 
-        return ""; 
-    },
     bindData:function($elems,data){
-        
+        for(var _key in data){
+            var $databind = $elems.find("[data-bind='" + _key + "']");
+            if($databind.length > 0){
+                $elems.find("[data-bind='" + _key + "']").val(data[_key]);
+            }
+        }
+    },
+    getData:function($elems){
+        var thisObj = new Object();
+        $elems.find("[data-bind='*']").each(function(){
+            thisObj[$(this).attr('data-bind')] == $(this).val(); 
+        });
+        return thisObj;
+    },
+    parseJsonString:function(JsonObject){
+        return JSON.stringify(JsonObject);
     }
 }
 
