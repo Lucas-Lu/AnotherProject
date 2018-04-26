@@ -11,6 +11,7 @@ if(historyID == "" || historyID == "0"){
 else{
     var getFurnitureHistoryParams = {
         url : _core.serverUrl + "/furniture/getHistoryByID.do" ,
+        method: "post",
         data : { "furnitureID" : furnitureID } ,
         success : function(data, msg){
             //获取列表数据
@@ -20,5 +21,5 @@ else{
             alert(msg);
         }
     }
-    _core.rquest(getFurnitureHistoryParams);
+    _core.request(getFurnitureHistoryParams);
 }

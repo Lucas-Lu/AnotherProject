@@ -108,7 +108,7 @@ var _core = {
     getUrlParam : function(name){
         var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)' );
         var result = window.location.search.substr(1).match(reg);
-        return reuslt ? decodeURIComponent(reuslt[2])    : null;
+        return result ? decodeURIComponent(result[2])    : null;
     },
     //渲染模版
     renderHtml : function(htmlTemplate, data){
@@ -171,19 +171,99 @@ var _core = {
         document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
     },
     bindData:function($elems,data){
-        for(var _key in data){
-            var $databind = $elems.find("[data-bind='" + _key + "']");
-            if($databind.length > 0){
-                $elems.find("[data-bind='" + _key + "']").val(data[_key]);
+        if (data == null) {
+            return false;
+        }
+        if ($elem.length == 1 && typeof data == "object") {
+            var setVal = {
+                checkbox: function (ele, d) { ele.attr("checked", d) },
+                radio: function (ele, d) { ele.attr("checked", d) },
+                p: function (ele, d) { ele.html(d); },
+                span: function (ele, d) { ele.html(d); },
+                text: function (ele, d) { ele.val(d); },
+                a: function (ele, d) { ele.html(d); },
+                label: function (ele, d) { ele.html(d); },
+                input: function (ele, d) { ele.val(d); },
+                date: function (ele, d) { ele.val(d); },
+                number: function (ele, d) { ele.val(d); },
+                select: function (ele, d) { ele.val(d); },
+                password: function (ele, d) { ele.val(d); },
+                textarea: function (ele, d) { ele.html(d); },
+                td: function (ele, d) { ele.html(d); },
+                dt: function (ele, d) { ele.html(d); },
+                hidden: function (ele, d) { return ele.val(d); },
+                file: function (ele, d) { return ele.val(d); },
+                label: function (ele, d) { return ele.html(d); },
+                div: function (ele, d) { return ele.html(d); },
             }
+            var b = $elem.find("[data-bind]");
+            b.each(function () {
+                var _this = $(this);
+                var _key = _this.attr("data-bind");
+                var _type = _this.attr("type") || _this[0].tagName;
+                setVal[_type.toLowerCase()](_this, data[_key]);
+            })
         }
     },
     getData:function($elems){
-        var thisObj = new Object();
-        $elems.find("[data-bind='*']").each(function(){
-            thisObj[$(this).attr('data-bind')] == $(this).val(); 
-        });
-        return thisObj;
+        if ($elem != undefined && $elem.length > 0) {
+            //定义返回值
+            var _data = [];
+            var data = {};
+            var getVal = {
+                checkbox: function (ele) { return ele.attr("checked") ? true : false },
+                radio: function (ele) { return ele.attr("checked") ? true : false },
+                p: function (ele) { return ele.html(); },
+                span: function (ele) { return ele.html(); },
+                text: function (ele) { return ele.val(); },
+                a: function (ele) { return ele.html(); },
+                label: function (ele) { return ele.html(); },
+                input: function (ele) { return ele.val(); },
+                number: function (ele) { return ele.val(); },
+                select: function (ele) { return ele.val(); },
+                hidden: function (ele) { return ele.val(); },
+                password: function (ele) { return ele.val(); },
+                textarea: function (ele) { return ele.val(); },
+                date: function (ele) { return ele.val(); },
+                td: function (ele) { return ele.html(); },
+                file: function (ele) { return ele.val(); },
+                img: function (ele) { return ele.val(); },
+                "select-one": function (ele) { return ele.val(); }
+            }
+            //得到标签属性
+            var parentTag = $elem.attr("type") || $elem[0].tagName;
+            //是否返回的是列表json
+            var IsList = $elem.length > 1 || parentTag == "table" ? true : false;
+            if (IsList) {
+                $elem.each(function () {
+                    var _class = $elem.find("[data-bind]");
+                    _class.each(function () {
+                        var _this = $(this);
+                        var _key = _this.attr("data-bind");
+                        var _type = _this.attr("type") == null ? null : _this.attr("type").toLowerCase();
+                        var sonelemt = _this.children();
+                        var _tagName = this.tagName.toLowerCase();
+                        if (_type != null) {
+                            data[_key] = getVal[_type.toLowerCase()](_this);
+                            if (data[_key] != null && !(data[_key] instanceof Object)) { data[_key] = data[_key].trim(); }
+                            _data.push(data)
+                        }
+                        data = {};
+                    })
+                });
+            } else {
+                var _class = $elem.find("[data-bind]");
+                _class.each(function () {
+                    var _this = $(this);
+                    var _key = _this.attr("data-bind");
+                    var _type = _this.attr("type") || _this[0].tagName;
+                    if (_key)
+                        data[_key] = getVal[_type.toLowerCase()](_this);
+                    if (data[_key] != null && !(data[_key] instanceof Object)) { data[_key] = data[_key].trim(); }
+                });
+            }
+            return data;
+        }
     },
     parseJsonString:function(JsonObject){
         return JSON.stringify(JsonObject);
