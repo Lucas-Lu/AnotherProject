@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/dist";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 31);
+/******/ 	return __webpack_require__(__webpack_require__.s = 37);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1085,69 +1085,96 @@ var Hogan = {};
 
 /***/ }),
 
-/***/ 31:
+/***/ 37:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(32);
+module.exports = __webpack_require__(38);
 
 
 /***/ }),
 
-/***/ 32:
+/***/ 38:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(4)
 var _core = __webpack_require__(0)
 _core.doLogin(); 
+var categoryItem = new Array();
 
 var getCategoryParams = {
     url : _core.serverUrl + "/furniture/getAllCategory.do",
     method: "post",
     notAsync : true,
     success : function(data, msg){
-        //获取列表数据
-        var html = "";
-        var getByCategoryParams = {
-            url : _core.serverUrl + "/furniture/getByCategory.do",
-            method: "post",
-            notAsync : true,
-            success : function(furnitures, msg){
-                for(var j = 0; j < furnitures.length ; j ++){
-                    html += (" <a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitures[j].id + "'><div class='weui-cell__bd'><p>" + furnitures[j].name + "</p></div><div class='weui-cell__ft'></div></a>");
-                }
-            } 
-        }
         for(var i = 0; i < data.length ; i ++){
-            html += ("<div class='weui-cells__title'>" + data[i].name + "</div><div class='weui-cells'>");
-            getByCategoryParams.data = {'categoryID': data[i].id };
-            _core.request(getByCategoryParams);
-            html += "</div></div>";
+            categoryItem.push(data[i]);
+            $("select[data-bind='categoryid']").append("<option value='" + data[i].id +  "'>" + data[i].name +  "</option>");
         }
-        $(".page__bd").html(html);
-
-        $(".page__bd").append("<a href='javascript:;' class='weui-btn weui-btn_primary furniture_item' data-id='0'>添加</a>");
-        $(".furniture_item").click(function(){
-            var id = $(this).attr('data-id');
-            window.location.href = _core.getServerUrl("/furniture.html?id=" + id);
-        });
-
-    },
-    error : function(msg){
-        alert(msg);
     }
 }
+
 _core.request(getCategoryParams);
 
+var furnitureID = _core.getUrlParam("id");
+if(furnitureID == "" || furnitureID == "0"){
+    $(".furniture_history").hide();
+}
+else{
+    var getFurnitureParams = {
+        url : _core.serverUrl + "/furniture/getByID.do",
+        data : {"id" : furnitureID },
+        method: "post",
+        success : function(data, msg){
+            //获取列表数据
+            _core.bindData($("#furniture_info"),data);
+        },
+        error : function(msg){
+            alert(msg);
+        }
+    }
+    _core.request(getFurnitureParams);
+}
 
-/***/ }),
+$("#btn_save_furnitue").click(function(){
+    var furniture = _core.getData($("#furniture_info"));
+    if(furniture.name == "" || furniture.categoryID == ""){
+        alert("请先填写必填项");
+        return;
+    }
+    var furnitureParams = {
+        method: "post",
+        success : function(data, msg){
+            //获取列表数据
+            alert("保存成功！")
+        },
+        error : function(msg){
+            alert(msg);
+        }
+    }
+    furniture.id = furnitureID;
+    var userinfo = _core.getCookie("Crab_User");
+    if(furniture.id > 0){
+        furniture.edited = userinfo.split('@')[0];
+        furnitureParams.url = _core.serverUrl + "/furniture/update.do";
+    }
+    else{
+        furniture.created = userinfo.split('@')[0];
+        furnitureParams.url = _core.serverUrl + "/furniture/add.do";
+    }
+    furnitureParams.data = (furniture);
+    _core.request(furnitureParams);
+})
 
-/***/ 4:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
+$(".furniture_history").click(function(){
+    if(furnitureID == "" || furnitureID == "0"){
+        alert("没有历史");
+    }
+    else{
+        window.location = _core.getServerUrl('/furnitureHistorys.html?id=' + furnitureID);
+    }
+});
 
 /***/ })
 

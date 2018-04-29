@@ -17,7 +17,7 @@ var getCategoryParams = {
 _core.request(getCategoryParams);
 
 var historyID = _core.getUrlParam("historyid");
-if(historyID == "" || historyID == "0"){
+if(historyID == "" || historyID == "0" || historyID == null){
     alert("不存在的历史版本");
     _core.goHome();
 }
@@ -25,7 +25,7 @@ else{
     var getFurnitureHistoryParams = {
         url : _core.serverUrl + "/furniture/getHistoryByID.do" ,
         method: "post",
-        data : { "furnitureID" : furnitureID } ,
+        data : { "historyID" : historyID } ,
         success : function(data, msg){
             //获取列表数据
             data.categoryName = categoryItem[data.categoryid];

@@ -270,8 +270,8 @@ var _core = {
     },
     parseDate:function(timestamp){
         var newDate = new Date();
-        newDate.setTime(timestamp * 1000);
-        return newDate.toDateString();
+        newDate.setTime(timestamp);
+        return newDate.toLocaleDateString();
     }
 }
 

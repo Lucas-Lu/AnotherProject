@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "/dist";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 31);
+/******/ 	return __webpack_require__(__webpack_require__.s = 39);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1085,69 +1085,70 @@ var Hogan = {};
 
 /***/ }),
 
-/***/ 31:
+/***/ 39:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(32);
+module.exports = __webpack_require__(40);
 
 
 /***/ }),
 
-/***/ 32:
+/***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(4)
 var _core = __webpack_require__(0)
 _core.doLogin(); 
 
-var getCategoryParams = {
-    url : _core.serverUrl + "/furniture/getAllCategory.do",
+var userItem = new Array();
+
+var getUsersParams = {
+    url : _core.serverUrl + "/user/getAll.do",
     method: "post",
     notAsync : true,
     success : function(data, msg){
-        //获取列表数据
-        var html = "";
-        var getByCategoryParams = {
-            url : _core.serverUrl + "/furniture/getByCategory.do",
-            method: "post",
-            notAsync : true,
-            success : function(furnitures, msg){
-                for(var j = 0; j < furnitures.length ; j ++){
-                    html += (" <a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitures[j].id + "'><div class='weui-cell__bd'><p>" + furnitures[j].name + "</p></div><div class='weui-cell__ft'></div></a>");
-                }
-            } 
-        }
         for(var i = 0; i < data.length ; i ++){
-            html += ("<div class='weui-cells__title'>" + data[i].name + "</div><div class='weui-cells'>");
-            getByCategoryParams.data = {'categoryID': data[i].id };
-            _core.request(getByCategoryParams);
-            html += "</div></div>";
+            userItem[data[i].id] = data[i].username;
         }
-        $(".page__bd").html(html);
-
-        $(".page__bd").append("<a href='javascript:;' class='weui-btn weui-btn_primary furniture_item' data-id='0'>添加</a>");
-        $(".furniture_item").click(function(){
-            var id = $(this).attr('data-id');
-            window.location.href = _core.getServerUrl("/furniture.html?id=" + id);
-        });
-
-    },
-    error : function(msg){
-        alert(msg);
     }
 }
-_core.request(getCategoryParams);
 
+_core.request(getUsersParams);
 
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
+var furnitureID = _core.getUrlParam("id");
+if(furnitureID == "" || furnitureID == "0" || furnitureID == null){
+    alert("没有历史");
+    _core.goHome();
+}
+else{
+    var getFurnitureHistoryParams = {
+        url : _core.serverUrl + "/furniture/getHistory.do",
+        method: "post",
+        data : { "furnitureID" : furnitureID } ,
+        success : function(data, msg){
+            //获取列表数据
+            if(data.length > 0){
+                data.forEach(furnitureHistory => {
+                    $("#historys").append("<a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitureHistory.id + "'><div class='weui-cell__bd'><p>"+ "日期:" + _core.parseDate(furnitureHistory.createtime) + "  用户:" + userItem[furnitureHistory.created] + "</p></div><div class='weui-cell__ft'></div></a>");
+                });
+                $(".furniture_item").click(function(){
+                    var id = $(this).attr('data-id');
+                    window.location.href = _core.getServerUrl("/furnitureHistory.html?historyid=" + id);
+                });
+            }
+            else{
+                $("#historys").append("暂时没有历史记录");
+            }
+           
+        },
+        error : function(msg){
+            alert(msg);
+        }
+    }
+    _core.request(getFurnitureHistoryParams);
+}
 
 /***/ })
 
