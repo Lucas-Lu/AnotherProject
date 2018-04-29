@@ -170,7 +170,7 @@ var _core = {
         exdate.setDate(exdate.getDate()+expiredays)
         document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
     },
-    bindData:function($elems,data){
+    bindData:function($elem,data){
         if (data == null) {
             return false;
         }
@@ -205,7 +205,7 @@ var _core = {
             })
         }
     },
-    getData:function($elems){
+    getData:function($elem){
         if ($elem != undefined && $elem.length > 0) {
             //定义返回值
             var _data = [];
@@ -267,6 +267,11 @@ var _core = {
     },
     parseJsonString:function(JsonObject){
         return JSON.stringify(JsonObject);
+    },
+    parseDate:function(timestamp){
+        var newDate = new Date();
+        newDate.setTime(timestamp * 1000);
+        return newDate.toDateString();
     }
 }
 

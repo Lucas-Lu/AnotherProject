@@ -170,7 +170,7 @@ var _core = {
         exdate.setDate(exdate.getDate()+expiredays)
         document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
     },
-    bindData:function($elems,data){
+    bindData:function($elem,data){
         if (data == null) {
             return false;
         }
@@ -205,7 +205,7 @@ var _core = {
             })
         }
     },
-    getData:function($elems){
+    getData:function($elem){
         if ($elem != undefined && $elem.length > 0) {
             //定义返回值
             var _data = [];
@@ -267,6 +267,11 @@ var _core = {
     },
     parseJsonString:function(JsonObject){
         return JSON.stringify(JsonObject);
+    },
+    parseDate:function(timestamp){
+        var newDate = new Date();
+        newDate.setTime(timestamp * 1000);
+        return newDate.toDateString();
     }
 }
 
@@ -1111,7 +1116,7 @@ var getCategoryParams = {
             notAsync : true,
             success : function(furnitures, msg){
                 for(var j = 0; j < furnitures.length ; j ++){
-                    html += (+ " <a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitures[j].id + "'><div class='weui-cell__bd'><p>" + furnitures[j].name + "</p></div><div class='weui-cell__ft'></div></a>");
+                    html += (" <a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitures[j].id + "'><div class='weui-cell__bd'><p>" + furnitures[j].name + "</p></div><div class='weui-cell__ft'></div></a>");
                 }
             } 
         }
@@ -1126,7 +1131,7 @@ var getCategoryParams = {
         $(".page__bd").append("<a href='javascript:;' class='weui-btn weui-btn_primary furniture_item' data-id='0'>添加</a>");
         $(".furniture_item").click(function(){
             var id = $(this).attr('data-id');
-            window.location.href = _core.getServerUrl("/view/furniture.html?id=" + id);
+            window.location.href = _core.getServerUrl("/furniture.html?id=" + id);
         });
 
     },

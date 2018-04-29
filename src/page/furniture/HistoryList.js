@@ -16,7 +16,7 @@ else{
         success : function(data, msg){
             //获取列表数据
             data.forEach(furnitureHistory => {
-                $("#historys").append("<a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitureHistory.id + "'><div class='weui-cell__bd'><p>"+ "date:" + furnitureHistory.edit + "  user:" + furnitureHistory.editperson + "</p></div><div class='weui-cell__ft'></div></a>");
+                $("#historys").append("<a class='weui-cell weui-cell_access furniture_item' href='javascript:;' data-id='" + furnitureHistory.id + "'><div class='weui-cell__bd'><p>"+ "date:" + _core.parseDate(furnitureHistory.createtime) + "  user:" + furnitureHistory.created + "</p></div><div class='weui-cell__ft'></div></a>");
             });
             $(".furniture_item").click(function(){
                 var id = $(this).attr('data-id');
@@ -27,7 +27,7 @@ else{
             alert(msg);
         }
     }
-    _core.request(getFurnitureParams);
+    _core.request(getFurnitureHistoryParams);
 }
 
 $(".furniture_history").click(function(){

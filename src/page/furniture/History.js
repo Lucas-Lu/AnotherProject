@@ -2,6 +2,19 @@
 
 var _core = require('util/core.js')
 _core.doLogin(); 
+var categoryItem = new Array();
+
+var getCategoryParams = {
+    url : _core.serverUrl + "/furniture/getAllCategory.do",
+    method: "post",
+    notAsync : true,
+    success : function(data, msg){
+        for(var i = 0; i < data.length ; i ++){
+            categoryItem[data[i].id] = data[i].name;
+        }
+    }
+}
+_core.request(getCategoryParams);
 
 var historyID = _core.getUrlParam("historyid");
 if(historyID == "" || historyID == "0"){
@@ -15,6 +28,7 @@ else{
         data : { "furnitureID" : furnitureID } ,
         success : function(data, msg){
             //获取列表数据
+            data.categoryName = categoryItem[data.categoryid];
             _core.bindData($("#furniture_info"),data);
         },
         error : function(msg){
